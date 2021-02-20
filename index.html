@@ -1,0 +1,159 @@
+<html>
+	<head>
+		<style>
+			#body{
+			background: url("theaterbg.jpg");
+			}
+			#currentimg{
+			position: absolute;
+			top: 145px;
+			left: 510px;
+			width: 600px;
+			height: 400px;
+			}
+			#imgcont{
+			position: absolute;
+			left: 480px;
+			top: 120px;
+			width: 650px;
+			height: 450px;
+			border: 4px dashed white;
+			}
+			#bottomcontainer{
+			position: fixed;
+			bottom: 0px;
+			left: 0px;
+			width: 1800px;
+			height: 150px;
+			}
+			#play{
+			position: absolute;
+			background-image: url("playsymb.jpg");
+			background-size: 80px 80px;
+			background-repeat: no-repeat;
+			background-position: center;
+			border: 2px solid black;
+			border-radius: 50%;
+			width: 100px;
+			height: 100px;
+			left: 750px;
+			top: 620px;
+			}
+			#previous{
+			position: absolute;
+			background-image: url("rewindsymb.png");
+			background-size: 40px 40px;
+			background-repeat: no-repeat;
+			background-position: center;
+			border: 2px solid black;
+			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+			left: 630px;
+			top: 630px;
+			}
+			#next{
+			position: absolute;
+			background-image: url("ffsymb.png");
+			background-size: 40px 40px;
+			background-repeat: no-repeat;
+			background-position: center;
+			border: 2px solid black;
+			border-radius: 50%;
+			width: 80px;
+			height: 80px;
+			left: 880px;
+			top: 630px;			
+			}
+		</style>
+	</head>
+	<body id = "body">
+		<img src = "imgcontbg.png"id = "imgcont"></img>
+		<img src = "frame (1).jpg" id = "currentimg"> </img>
+		
+		<img src = "bottomcontbg.png" id = "bottomcontainer"></img>
+		<button id = "previous" onclick = "toprev()"></button>
+		<button id = "next" onclick = "tonext()"></button>
+		<button id = "play" onclick = "autoplay()"></button>
+		<script>
+			var image = document.getElementById("currentimg");
+			var nxt = document.getElementById("next");
+			var prev = document.getElementById("previous");
+			var auto = document.getElementById("play");
+			var imgsrc = [];
+			var opacity = 1.0;
+			var index = 0;
+			var autoplayon = false;
+			
+			for(x = 1;x <= 6; x++){
+				imgsrc.push("frame (" + x + ").jpg");
+			}
+			function autoplay(){
+			if(autoplayon == false){
+				auto.style.backgroundImage = "url('pausesymb.jpg')";
+				autoplayon = true;
+				window.setTimeout(playauto, 200);
+			}else{
+				autoplayon = false;
+				auto.style.backgroundImage = "url('playsymb.jpg')";
+			}	
+			}
+			function playauto(){
+			if(autoplayon == true){
+				if(index < imgsrc.length - 1){
+					tonext()
+					window.setTimeout(playauto, 5000);
+				}
+			}
+			if(index == imgsrc.length - 1){
+				auto.style.backgroundImage = "url('playsymb.jpg')";
+			}
+			}
+			function tonext(){
+			fadeout()
+			window.setTimeout(next, 100);
+			window.setTimeout(fadein, 300);
+			}
+			function toprev(){
+			fadeout()
+			window.setTimeout(prevs, 100);
+			window.setTimeout(fadein, 300);
+			}
+
+			function next(){
+				if(index == imgsrc.length - 1){
+					index = 0;
+					image.src  = imgsrc[index];
+				}else{
+					index++;
+					image.src  = imgsrc[index];
+				}
+			}
+			function prevs(){
+				if(index == 0){
+					index = imgsrc.length - 1;
+					image.src  = imgsrc[index];
+				}else{
+					index--;
+					image.src  = imgsrc[index];
+				}
+			}
+			function fadeout(){
+				opacity -= 0.2;
+				image.style.opacity = opacity;
+				if (opacity > 0){
+				window.setTimeout(fadeout, 50);
+				}
+			}
+			function fadein(){
+				opacity += 0.2;
+				image.style.opacity = opacity;
+				if(opacity < 1){
+				window.setTimeout(fadein, 50);
+				}
+			}
+		
+			
+		</script>
+	</body>
+</html>
